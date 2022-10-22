@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="53.3535mm"
+   height="128.51367mm"
+   viewBox="0 0 53.3535 128.51367"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1"
+     transform="translate(-36.479208,-48.98525)">
+    <circle
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.264583"
+       id="path111"
+       cx="62.45203"
+       cy="68.93045"
+       r="19.9452" />
+    <rect
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.195329"
+       id="rect457"
+       width="4.6098003"
+       height="52.761124"
+       x="60.170948"
+       y="86.593987" />
+    <rect
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       id="rect457-5"
+       width="4.6098003"
+       height="27.356865"
+       x="98.200836"
+       y="-89.83271"
+       transform="rotate(90)" />
+    <rect
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       id="rect457-5-3"
+       width="4.6098003"
+       height="27.356865"
+       x="115.66475"
+       y="-2.7003524"
+       transform="rotate(60)" />
+    <rect
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       id="rect457-3"
+       width="4.6098003"
+       height="44.044682"
+       x="121.16953"
+       y="88.294693"
+       transform="rotate(30)" />
+    <rect
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       id="rect457-3-6"
+       width="4.6098003"
+       height="44.044682"
+       x="-17.567987"
+       y="150.77054"
+       transform="rotate(-30)" />
+    <ellipse
+       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.187798"
+       id="path2016"
+       cx="62.475849"
+       cy="116.48907"
+       rx="6.7252984"
+       ry="23.93763" />
+    <ellipse
+       style="fill:#0b2dd2;stroke-width:0.23867"
+       id="path6141"
+       cx="62.475849"
+       cy="141.89433"
+       rx="4.0251126"
+       ry="2.8995204" />
+  </g>
+</svg>

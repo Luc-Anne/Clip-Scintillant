@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="155.763mm"
+   height="155.763mm"
+   viewBox="0 0 155.763 155.763"
+   version="1.1"
+   id="svg6066"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6063">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter17332"
+       x="-0.027000001"
+       y="-0.027"
+       width="1.054"
+       height="1.054">
+      <feGaussianBlur
+         stdDeviation="1.6625557"
+         id="feGaussianBlur17334" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter17336"
+       x="-0.026999999"
+       y="-0.027000001"
+       width="1.054"
+       height="1.054">
+      <feGaussianBlur
+         stdDeviation="0.64375149"
+         id="feGaussianBlur17338" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter18122"
+       x="-0.108"
+       y="-0.108"
+       width="1.216"
+       height="1.216">
+      <feGaussianBlur
+         stdDeviation="1.4724098"
+         id="feGaussianBlur18124" />
+    </filter>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-29.400115,-15.180035)">
+    <path
+       style="mix-blend-mode:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.264583;filter:url(#filter17332)"
+       id="path15764"
+       d="M 151.22433,99.416245 88.827768,110.91104 77.33297,173.30761 65.838171,110.91104 3.4416046,99.416245 65.838171,87.921446 77.33297,25.524879 88.827768,87.921446 Z"
+       transform="matrix(0.32793108,0,0,0.32793108,81.92173,60.459858)" />
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.264583;filter:url(#filter17336)"
+       id="path17220"
+       d="M 105.44611,128.00477 76.834931,104.65369 48.223753,128.00477 71.574831,99.393593 48.223753,70.782416 76.83493,94.133493 105.44611,70.782416 82.09503,99.393593 Z"
+       transform="matrix(0.18773068,0,0,0.18773068,92.857343,74.402312)" />
+    <circle
+       style="mix-blend-mode:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.247514;filter:url(#filter18122)"
+       id="path18118"
+       cx="107.28162"
+       cy="93.061539"
+       r="16.360109"
+       transform="matrix(0.2669109,0,0,0.2669109,78.646984,68.222399)" />
+  </g>
+</svg>
