@@ -319,6 +319,13 @@ class Cinema {
 
                 let footer = document.getElementsByTagName('footer')[0];
                 footer.style.height = (getValueCss(footer.style.height, "px") - 2) + "px";
+            } else {
+                try {
+                    document.getElementById('terre').remove();
+                    document.getElementsByTagName('footer')[0].remove();
+                } catch(e) {
+
+                }
             }
 
             // Bouger les étoiles
