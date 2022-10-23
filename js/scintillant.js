@@ -168,7 +168,7 @@ class Cinema {
                         let delta = - (percentageTodo * percentageTodo) + percentageTodo;
                         currentPlace.x = currentPlaceStraight.x - (delta * (origin.x - dest.x));
                         // Mimer l'accélération
-                        currentPlace.y = currentPlace.y - ((dest.y - origin.y) * percentageTodo / 150);
+                        currentPlace.y = currentPlace.y - ((dest.y - origin.y) * percentageTodo / 200);
 
                         // Déplacer
                         specialOne.move(currentPlace.x, currentPlace.y);
@@ -181,7 +181,7 @@ class Cinema {
                             specialOne.etoile.src = 'images/etoile/3.svg';
                         }
 
-                        currentPlace.y += 5;
+                        currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
 
                     }, 10);
                 }, 10000)
