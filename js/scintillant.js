@@ -142,20 +142,51 @@ class Cinema {
     }
 
     acte1() { // L'étoile filante tombe
-        setTimeout(() =>{
-            let specialOne = document.getElementById('specialOne');
-            // Coordonnées
-            let originX = specialOne.x;
-            let originY = specialOne.y;
-            let sommetX = (window.innerWidth / 2);
-            let sommetY = window.innerHeight * 0.5;
-            let destX = (window.innerWidth / 2) + 30;
-            let destY = window.innerHeight * 0.64;
-            // Mouvement
-            specialOne.style.top = destY + 'px';
-            specialOne.style.left = destX + 'px';
-            this.nextActe();
-        }, 10000)
+        for (let etoile of this.etoiles) {
+            if (etoile.etoile.id === 'specialOne') {
+                let specialOne = etoile;
+                setTimeout(() => {
+                    // Coordonnées
+                    let origin = {x: specialOne.etoile.x, y: specialOne.etoile.y};
+                    let dest = {x: (window.innerWidth / 2) + 30, y: window.innerHeight * 0.64};
+
+                    // Mouvement
+                    let currentPlace = {x: origin.x, y:origin.y};
+                    let currentPlaceStraight = {x: origin.x, y:origin.y};
+                    let percentageTodo = 1;
+                    let trajectoire = setInterval(() => {
+                        if(currentPlace.y > dest.y) {
+                            clearInterval(trajectoire);
+                            this.nextActe();
+                        }
+
+                        // Calculer currentPlace.x et currentPlace.y en fonction de currentPlaceStraight.x et currentPlace.y
+                        // Ligne droite
+                        percentageTodo = (dest.y - currentPlace.y) / (dest.y - origin.y);
+                        currentPlaceStraight.x = dest.x + ((origin.x - dest.x) * (percentageTodo));
+                        // Courber la ligne droite
+                        let delta = - (percentageTodo * percentageTodo) + percentageTodo;
+                        currentPlace.x = currentPlaceStraight.x - (delta * (origin.x - dest.x));
+                        // Mimer l'accélération
+                        currentPlace.y = currentPlace.y - ((dest.y - origin.y) * percentageTodo / 150);
+
+                        // Déplacer
+                        specialOne.move(currentPlace.x, currentPlace.y);
+
+                        // Changer l'apparence
+                        if (percentageTodo < 0.8 && percentageTodo > 0.6){
+                            specialOne.etoile.src = 'images/etoile/2.svg';
+                        }
+                        if (percentageTodo < 0.6){
+                            specialOne.etoile.src = 'images/etoile/3.svg';
+                        }
+
+                        currentPlace.y += 5;
+
+                    }, 10);
+                }, 10000)
+            }
+        }
     }
 
     acte2() { // On la fait scintiller
@@ -316,27 +347,36 @@ class Cinema {
 
 // Etoile
 class Etoile {
-    constructor (nbState) {
+    constructor (nbState, left, top) {
         const etoile = document.createElement('img');
+        this.etoile = etoile;
+        cinema.etoiles.push(this);
+
         etoile.src = 'images/etoile/1.svg';
         etoile.className = 'etoile';
         etoile.alt = 'etoile';
         // Data
         etoile.setAttribute('data-state', '1');
-        // Style
-        if (0.5 < Math.random()) {
-            etoile.style.top = (Math.random() * window.innerHeight * 0.8) + 'px';
+        if (typeof top === "undefined" && typeof left === "undefined") {
+            this.placeRandomly();
         } else {
-            etoile.style.top = -(Math.random() * window.innerHeight) + 'px';
+            this.etoile.style.left = left + 'px';
+            this.etoile.style.top = top + 'px';
         }
-        etoile.style.left = (Math.random() * window.innerWidth ) + 'px';
         etoile.style.height = '20px';
         etoile.style.width = '20px';
         etoile.style.zIndex = '-1';
-        this.etoile = etoile;
-        cinema.etoiles.push(this);
 
         this.nbState = nbState;
+    }
+
+    placeRandomly() {
+        if (0.5 < Math.random()) {
+            this.etoile.style.top = (Math.random() * window.innerHeight * 0.8) + 'px';
+        } else {
+            this.etoile.style.top = -(Math.random() * window.innerHeight) + 'px';
+        }
+        this.etoile.style.left = (Math.random() * window.innerWidth ) + 'px';
     }
 
     anime() {
@@ -358,19 +398,25 @@ class Etoile {
         this.etoile.setAttribute('data-state', '' + state);
         this.etoile.src = 'images/etoile/' + state + '.svg';
     }
+
+    move(destX, destY) {
+        this.etoile.style.left = destX + 'px';
+        this.etoile.style.top = destY + 'px';
+    }
 }
 
 // Personnage
 class Personnage {
     constructor(role, positionDepart) {
         let img = document.createElement('img');
+        this.personnage = img;
+        cinema.personnages.push(this);
+
         img.src = 'images/personnage/' + role + '.svg';
         img.setAttribute('alt', role);
         img.className = 'personnage';
         img.id = 'role' + role;
         img.style.left = positionDepart + 'px';
-        this.personnage = img;
-        cinema.personnages.push(this);
 
         this.x = positionDepart;
         this.role = role;
