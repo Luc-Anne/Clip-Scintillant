@@ -301,27 +301,36 @@ class Cinema {
         let nbMoved = 0;
         this.loopFinish = setInterval(()=>{
             nbMoved += 1;
-            // Bouger le sol
-            if (nbMoved < (window.innerHeight / 2)) {
+            // Bouger le sol et le faire disparaître dès que possible
+            try {
                 let terre = document.getElementById('terre');
                 terre.style.bottom = (getValueCss(terre.style.bottom, "px") - 2) + "px";
-
+                if (nbMoved > (window.innerHeight / 4)) {
+                    document.getElementById('terre').remove();
+                }
+            } catch (e) {}
+            try {
                 let cielDegrade = document.getElementById('cielDegrade');
                 cielDegrade.style.bottom = (getValueCss(cielDegrade.style.bottom, "px") - 2) + "px";
-
+                if (nbMoved > (window.innerHeight / 4)) {
+                    document.getElementById('cielDegrade').remove();
+                }
+            } catch (e) {}
+            try {
                 let etoile = this.getSpecialOne();
                 etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 2) + "px"
-
+                if (getValueCss(etoile.etoile.style.top, 'px') > window.innerHeight ||
+                    etoile.etoile.style.left > window.innerWidth) {
+                    etoile.etoile.remove();
+                }
+            } catch (e) {}
+            try {
                 let footer = document.getElementsByTagName('footer')[0];
                 footer.style.height = (getValueCss(footer.style.height, "px") - 2) + "px";
-            } else {
-                try {
-                    document.getElementById('terre').remove();
-                    document.getElementById('cielDegrade').remove();
-                    document.getElementById('specialOne').remove();
+                if (getValueCss(footer.style.height, 'px') <= 2) {
                     document.getElementsByTagName('footer')[0].remove();
-                } catch(e) {}
-            }
+                }
+            } catch (e) {}
 
             // Bouger les étoiles
             if (nbMoved < (window.innerHeight)) {
