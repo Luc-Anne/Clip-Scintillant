@@ -47,7 +47,7 @@ class Cinema {
     }
 
     createEtoiles() {
-        let nbEtoile = window.innerWidth / 15;
+        let nbEtoile = window.innerWidth / 10;
         for (let i = 0; i < 15 * nbEtoile / 100; i++) {
             let etoile = new Etoile(3).etoile;
             document.getElementById('cinema').appendChild(etoile);
