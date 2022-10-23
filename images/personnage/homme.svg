@@ -10,25 +10,38 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs2" />
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter1711"
+       x="-0.0051130809"
+       y="-0.0021227373"
+       width="1.0102262"
+       height="1.0042455">
+      <feGaussianBlur
+         stdDeviation="0.11366699"
+         id="feGaussianBlur1713" />
+    </filter>
+  </defs>
   <g
      id="layer1"
-     transform="translate(-36.479208,-48.98525)">
+     transform="translate(-36.479208,-48.98525)"
+     style="opacity:1;filter:url(#filter1711);fill:#0a1371;fill-opacity:1">
     <circle
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.264583"
        id="path111"
        cx="62.45203"
        cy="68.93045"
        r="19.9452" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.195329"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.195329"
        id="rect457"
        width="4.6098003"
        height="52.761124"
        x="60.170948"
        y="86.593987" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.140651"
        id="rect457-5"
        width="4.6098003"
        height="27.356865"
@@ -36,7 +49,7 @@
        y="-89.83271"
        transform="rotate(90)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.140651"
        id="rect457-5-3"
        width="4.6098003"
        height="27.356865"
@@ -44,7 +57,7 @@
        y="-2.7003524"
        transform="rotate(60)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.178467"
        id="rect457-3"
        width="4.6098003"
        height="44.044682"
@@ -52,7 +65,7 @@
        y="88.294693"
        transform="rotate(30)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.178467"
        id="rect457-3-6"
        width="4.6098003"
        height="44.044682"
@@ -60,14 +73,14 @@
        y="150.77054"
        transform="rotate(-30)" />
     <ellipse
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.187798"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.187798"
        id="path2016"
        cx="62.475849"
        cy="116.48907"
        rx="6.7252984"
        ry="23.93763" />
     <ellipse
-       style="fill:#0b2dd2;stroke-width:0.23867"
+       style="fill:#0a1371;stroke-width:0.23867;fill-opacity:1"
        id="path6141"
        cx="62.475849"
        cy="141.89433"

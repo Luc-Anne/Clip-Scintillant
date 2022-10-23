@@ -35,11 +35,12 @@ class Cinema {
             terre.id = 'terre';
             terre.style.bottom = solPosition;
             main.appendChild(terre);
-            {
-                let paysage = document.createElement('div');
-                paysage.className = 'paysage';
-                terre.appendChild(paysage);
-            }
+
+            let cielDegrade = document.createElement('div');
+            cielDegrade.id = 'cielDegrade';
+            cielDegrade.style.bottom = solPosition;
+            main.appendChild(cielDegrade);
+
             let footer = document.createElement('footer');
             footer.style.height = solPosition;
             main.appendChild(footer);
@@ -70,7 +71,7 @@ class Cinema {
 
     createPersonnage () {
         let terre = document.getElementById('terre');
-        let homme = new Personnage('homme', window.innerWidth / 4).personnage;
+        let homme = new Personnage('homme', -200).personnage;
         terre.appendChild(homme);
 
         let femme = new Personnage('femme', window.innerWidth + 21).personnage;
@@ -184,7 +185,7 @@ class Cinema {
                         currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
 
                     }, 10);
-                }, 10000)
+                }, 20000)
             }
         }
     }
@@ -317,15 +318,18 @@ class Cinema {
                 let terre = document.getElementById('terre');
                 terre.style.bottom = (getValueCss(terre.style.bottom, "px") - 2) + "px";
 
+                let cielDegrade = document.getElementById('cielDegrade');
+                cielDegrade.style.bottom = (getValueCss(cielDegrade.style.bottom, "px") - 2) + "px";
+
                 let footer = document.getElementsByTagName('footer')[0];
                 footer.style.height = (getValueCss(footer.style.height, "px") - 2) + "px";
             } else {
                 try {
                     document.getElementById('terre').remove();
+                    document.getElementById('cielDegrade').remove();
+                    document.getElementById('specialOne').remove();
                     document.getElementsByTagName('footer')[0].remove();
-                } catch(e) {
-
-                }
+                } catch(e) {}
             }
 
             // Bouger les étoiles

@@ -4,15 +4,16 @@ body {
     margin: 0;
     padding: 0;
 
-    /* #060c42; */
-    /* #030726; */
+    /* #060c42 */
+    /* #030726 */
+    /* #05082b */
 }
 
 body.cinemaStart {
     animation: cinemaStart;
-    animation-duration: 10s;
+    animation-duration: 30s;
     animation-timing-function: linear;
-    background-color: #060c42;
+    background-color: #05082b;
 }
 
 @keyframes cinemaStart {
@@ -20,7 +21,7 @@ body.cinemaStart {
         background-color: black;
     }
     100% {
-        background-color: #060c42;
+        background-color: #05082b;
     }
 }
 
@@ -34,7 +35,7 @@ body.cinemaStop {
 @keyframes cinemaStop {
     0% {
         opacity: 1;
-        background-color: #060c42;
+        background-color: #05082b;
     }
     100% {
         opacity: 0;
@@ -117,6 +118,9 @@ main footer {
     width: 100%;
     /* height */
 
+    margin: 0;
+    padding: 0;
+
     background-color: black;
 }
 
@@ -127,11 +131,43 @@ main #terre {
     width: 100%;
     height: 400px;
 
-    //border-bottom: 1px solid white;
+    margin: 0;
+    padding: 0;
+
     overflow: hidden;
     background-repeat: repeat-x;
     background-position: bottom center;
     background-image: url('../images/paysage.svg'), url('../images/paysage2.svg');
+}
+
+main #cielDegrade {
+    position: absolute;
+    /* bottom */
+    left: 0;
+    width: 100%;
+    height: 400px;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    background-image: url('../images/cielDegrade.svg');
+
+    z-index: -1;
+    animation: cielDegrade;
+    animation-duration: 30s;
+    animation-timing-function: linear;
+}
+
+@keyframes cielDegrade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 main .personnage {
@@ -144,7 +180,7 @@ main .personnage {
 
     opacity: 1;
     animation: linear personnageOpacity;
-    animation-duration: 10s;
+    animation-duration: 20s;
 }
 
 @keyframes personnageOpacity {
@@ -171,10 +207,4 @@ main .etoile {
     100% {
         opacity: 80%;
     }
-}
-
-
-main .paysage {
-    margin: auto;
-    text-align: center;
 }

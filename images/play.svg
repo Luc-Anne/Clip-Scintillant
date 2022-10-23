@@ -13,9 +13,10 @@
      id="defs2" />
   <g
      id="layer1"
-     transform="translate(-42.397686,-59.379509)">
+     transform="translate(-42.397686,-59.379509)"
+     style="fill:#040b3c;fill-opacity:1">
     <path
-       style="fill:#0a136a;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#040b3c;fill-opacity:1;stroke-width:0.264583"
        id="path842"
        d="M 147.63099,109.10778 32.16935,175.76959 V 42.445972 Z"
        transform="translate(19.286609,16.933537)" />

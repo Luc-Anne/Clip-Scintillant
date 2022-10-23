@@ -13,22 +13,23 @@
      id="defs2" />
   <g
      id="layer1"
-     transform="translate(-36.479208,-48.98525)">
+     transform="translate(-36.479208,-48.98525)"
+     style="fill:#0a1371;fill-opacity:1">
     <circle
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.264583"
        id="path111"
        cx="62.45203"
        cy="68.93045"
        r="19.9452" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.195329"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.195329"
        id="rect457"
        width="4.6098003"
        height="52.761124"
        x="60.170948"
        y="86.593987" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.140651"
        id="rect457-5"
        width="4.6098003"
        height="27.356865"
@@ -36,7 +37,7 @@
        y="-142.19728"
        transform="rotate(135)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.140651"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.140651"
        id="rect457-5-3"
        width="4.6098003"
        height="27.356865"
@@ -44,7 +45,7 @@
        y="-80.684814"
        transform="rotate(100)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.178467"
        id="rect457-3"
        width="4.6098003"
        height="44.044682"
@@ -52,7 +53,7 @@
        y="88.294693"
        transform="rotate(30)" />
     <rect
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.178467"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.178467"
        id="rect457-3-6"
        width="4.6098003"
        height="44.044682"
@@ -60,19 +61,19 @@
        y="150.77054"
        transform="rotate(-30)" />
     <ellipse
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.167735"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.167735"
        id="path2016"
        cx="62.475849"
        cy="116.48907"
        rx="5.3650775"
        ry="23.93763" />
     <path
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.264583"
        id="path5887"
        d="m -135.39328,110.05896 44.01624,76.23837 -88.03248,-10e-6 z"
        transform="matrix(0.32830865,0,0,0.32830865,106.92663,91.778531)" />
     <ellipse
-       style="fill:#0b2dd2;fill-opacity:1;stroke-width:0.264583"
+       style="fill:#0a1371;fill-opacity:1;stroke-width:0.264583"
        id="path5889"
        cx="60.170948"
        cy="107.48074"
