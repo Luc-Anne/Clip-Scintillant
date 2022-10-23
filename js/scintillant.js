@@ -128,6 +128,14 @@ class Cinema {
         }, 10000)
     }
 
+    getSpecialOne() {
+        for (let etoile of this.etoiles) {
+            if (etoile.etoile.id === 'specialOne') {
+                return etoile;
+            }
+        }
+    }
+
     actionDeplacerPersonnage(role, to, direction, pas) {
         for (let personnage of this.personnages) {
             if (personnage.role === role) {
@@ -168,65 +176,58 @@ class Cinema {
     }
 
     acte1() { // L'étoile filante tombe
-        for (let etoile of this.etoiles) {
-            if (etoile.etoile.id === 'specialOne') {
-                let specialOne = etoile;
-                setTimeout(() => {
-                    // Coordonnées
-                    let origin = {x: specialOne.etoile.x, y: specialOne.etoile.y};
-                    let dest = {x: (window.innerWidth / 2) + 30, y: window.innerHeight * 0.64};
+        let specialOne = this.getSpecialOne();
+        setTimeout(() => {
+            // Coordonnées
+            let origin = {x: specialOne.etoile.x, y: specialOne.etoile.y};
+            let dest = {x: (window.innerWidth / 2) + 30, y: window.innerHeight * 0.64};
 
-                    // Mouvement
-                    let currentPlace = {x: origin.x, y:origin.y};
-                    let currentPlaceStraight = {x: origin.x, y:origin.y};
-                    let percentageTodo = 1;
-                    this.loopTrajectoire = setInterval(() => {
-                        if(currentPlace.y > dest.y) {
-                            clearInterval(this.loopTrajectoire);
-                            this.nextActe();
-                        }
+            // Mouvement
+            let currentPlace = {x: origin.x, y:origin.y};
+            let currentPlaceStraight = {x: origin.x, y:origin.y};
+            let percentageTodo = 1;
+            this.loopTrajectoire = setInterval(() => {
+                if(currentPlace.y > dest.y) {
+                    clearInterval(this.loopTrajectoire);
+                    this.nextActe();
+                }
 
-                        // Calculer currentPlace.x et currentPlace.y en fonction de currentPlaceStraight.x et currentPlace.y
-                        // Ligne droite
-                        percentageTodo = (dest.y - currentPlace.y) / (dest.y - origin.y);
-                        currentPlaceStraight.x = dest.x + ((origin.x - dest.x) * (percentageTodo));
-                        // Courber la ligne droite
-                        let delta = - (percentageTodo * percentageTodo) + percentageTodo;
-                        currentPlace.x = currentPlaceStraight.x - (delta * (origin.x - dest.x));
-                        // Mimer l'accélération
-                        currentPlace.y = currentPlace.y - ((dest.y - origin.y) * percentageTodo / 200);
+                // Calculer currentPlace.x et currentPlace.y en fonction de currentPlaceStraight.x et currentPlace.y
+                // Ligne droite
+                percentageTodo = (dest.y - currentPlace.y) / (dest.y - origin.y);
+                currentPlaceStraight.x = dest.x + ((origin.x - dest.x) * (percentageTodo));
+                // Courber la ligne droite
+                let delta = - (percentageTodo * percentageTodo) + percentageTodo;
+                currentPlace.x = currentPlaceStraight.x - (delta * (origin.x - dest.x));
+                // Mimer l'accélération
+                currentPlace.y = currentPlace.y - ((dest.y - origin.y) * percentageTodo / 200);
 
-                        // Déplacer
-                        specialOne.move(currentPlace.x, currentPlace.y);
+                // Déplacer
+                specialOne.move(currentPlace.x, currentPlace.y);
 
-                        // Changer l'apparence
-                        if (percentageTodo < 0.8 && percentageTodo > 0.6){
-                            specialOne.etoile.src = 'images/etoile/2.svg';
-                        }
-                        if (percentageTodo < 0.6){
-                            specialOne.etoile.src = 'images/etoile/3.svg';
-                        }
+                // Changer l'apparence
+                if (percentageTodo < 0.8 && percentageTodo > 0.6){
+                    specialOne.etoile.src = 'images/etoile/2.svg';
+                }
+                if (percentageTodo < 0.6){
+                    specialOne.etoile.src = 'images/etoile/3.svg';
+                }
 
-                        currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
+                currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
 
-                    }, 10);
-                }, 20000)
-            }
-        }
+            }, 10);
+        }, 20000)
     }
 
     acte2() { // On la fait scintiller
-        for (let etoile of this.etoiles) {
-            if (etoile.etoile.id === 'specialOne') {
-                etoile.nbState = 3;
-                this.loopScintilleSpecialOne = setInterval(() => {
-                    etoile.scintille(true);
-                },100)
-                setTimeout(() => {
-                    this.nextActe()
-                }, 3000)
-            }
-        }
+        let etoile = this.getSpecialOne();
+        etoile.nbState = 3;
+        this.loopScintilleSpecialOne = setInterval(() => {
+            etoile.scintille(true);
+        },100)
+        setTimeout(() => {
+            this.nextActe()
+        }, 3000)
     }
 
     acte3() { // L'homme se rapproche de l'étoile filante et la femme se montre
@@ -271,17 +272,14 @@ class Cinema {
             // Personnage
             this.actionDeplacerPersonnage('homme', window.innerWidth / 2 + 25, 'right');
             setTimeout( () => {
-                for (let etoile of this.etoiles) {
-                    if (etoile.etoile.id === 'specialOne') {
-                        this.loopMoveSpecialOne = setInterval(() => {
-                            if (getValueCss(etoile.etoile.style.top, "px") < (window.innerHeight * 0.65) - 35) {
-                                clearInterval(this.loopMoveSpecialOne);
-                            }
-                            etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") - 2) + "px";
-                            etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
-                        }, 100)
+                let etoile = this.getSpecialOne();
+                this.loopMoveSpecialOne = setInterval(() => {
+                    if (getValueCss(etoile.etoile.style.top, "px") < (window.innerHeight * 0.65) - 35) {
+                        clearInterval(this.loopMoveSpecialOne);
                     }
-                }
+                    etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") - 2) + "px";
+                    etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
+                }, 100)
             }, 1000);
         }, 3000)
     }
@@ -292,11 +290,8 @@ class Cinema {
             this.actionDeplacerPersonnage('homme', window.innerWidth + 25, 'right', 1);
             this.actionDeplacerPersonnage('femme', window.innerWidth + 100, 'right', 1 - 19);
             this.loopMoveSpecialOneFinale = setInterval(() => {
-                for (let etoile of this.etoiles) {
-                    if (etoile.etoile.id === 'specialOne') {
-                        etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
-                    }
-                }
+                let etoile = this.getSpecialOne();
+                etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
             }, 100);
             this.nextActe();
         }, 3000)
@@ -314,11 +309,8 @@ class Cinema {
                 let cielDegrade = document.getElementById('cielDegrade');
                 cielDegrade.style.bottom = (getValueCss(cielDegrade.style.bottom, "px") - 2) + "px";
 
-                for (let etoile of this.etoiles) {
-                    if (etoile.etoile.id === "specialOne") {
-                        etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 2) + "px";
-                    }
-                }
+                let etoile = this.getSpecialOne();
+                etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 2) + "px"
 
                 let footer = document.getElementsByTagName('footer')[0];
                 footer.style.height = (getValueCss(footer.style.height, "px") - 2) + "px";
