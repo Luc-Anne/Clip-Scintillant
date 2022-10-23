@@ -367,7 +367,7 @@ class Etoile {
         }
         etoile.style.height = '20px';
         etoile.style.width = '20px';
-        etoile.style.zIndex = '-1';
+        etoile.style.zIndex = '-5';
 
         this.nbState = nbState;
     }
