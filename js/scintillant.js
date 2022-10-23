@@ -7,17 +7,105 @@ function getValueCss(value, unit) {
 class Cinema {
     constructor() {
         this.currentAct = -1;
+        this.pas = 5;
+        this.resetCinema();
     }
 
-    pas = 5;
+    resetCinema() {
+        this.etoiles = [];
+        this.personnages = [];
+        this.moveSpecialOne = '';
+    }
+
+    initCinema() {
+        this.resetCinema();
+        this.createCinema();
+        this.createPersonnage();
+        this.createEtoiles();
+    }
+
+    createCinema() {
+        let solPosition = window.innerHeight * 0.35 + 'px';
+
+        let main = document.createElement('main');
+        main.id = 'cinema';
+        document.getElementsByTagName('body')[0].appendChild(main);
+        {
+            let terre = document.createElement('div');
+            terre.id = 'terre';
+            terre.style.bottom = solPosition;
+            main.appendChild(terre);
+            {
+                let paysage = document.createElement('div');
+                paysage.className = 'paysage';
+                terre.appendChild(paysage);
+            }
+            let footer = document.createElement('footer');
+            footer.style.height = solPosition;
+            main.appendChild(footer);
+        }
+    }
+
+    createEtoiles() {
+        let nbEtoile = window.innerWidth / 15;
+        for (let i = 0; i < 15 * nbEtoile / 100; i++) {
+            let etoile = new Etoile(3).etoile;
+            document.getElementById('cinema').appendChild(etoile);
+        }
+        for (let i = 0; i < 25 * nbEtoile / 100; i++) {
+            let etoile = new Etoile(2).etoile;
+            document.getElementById('cinema').appendChild(etoile);
+        }
+        for (let i = 0; i < 60 * nbEtoile / 100; i++) {
+            let etoile = new Etoile(1).etoile;
+            document.getElementById('cinema').appendChild(etoile);
+        }
+        // Special one
+        let etoile = new Etoile(1).etoile;
+        etoile.setAttribute('id', "specialOne");
+        etoile.style.top = (Math.random() * window.innerHeight * 0.3) + 'px';
+        etoile.style.zIndex = '1';
+        document.getElementById('cinema').appendChild(etoile);
+    }
+
+    createPersonnage () {
+        let terre = document.getElementById('terre');
+        let homme = new Personnage('homme', window.innerWidth / 4).personnage;
+        terre.appendChild(homme);
+
+        let femme = new Personnage('femme', window.innerWidth + 21).personnage;
+        terre.appendChild(femme);
+    }
+
+    createTitre() {
+        let div = document.createElement('div');
+        div.id = "titre";
+        div.style.top = window.innerHeight / 3 + 'px';
+        document.getElementById('cinema').appendChild(div);
+
+        let h1 = document.createElement('h1');
+        h1.innerText = 'Scintillant';
+        h1.className = 'start';
+        div.appendChild(h1);
+    }
 
     start() {
+        console.log('Cinema - start');
+        this.initCinema();
         document.getElementsByTagName('body')[0].className = 'cinemaStart';
         this.nextActe();
     }
 
     stop() {
+        console.log('Cinema - stop');
         document.getElementsByTagName('body')[0].className = 'cinemaStop';
+        clearTimeout(this.moveSpecialOne);
+        clearTimeout(cinemaStopAuto);
+        setTimeout(() => {
+            document.getElementById('cinema').remove();
+            startInterlude();
+            stopMusic();
+        }, 10000)
     }
 
     nextActe() {
@@ -38,16 +126,14 @@ class Cinema {
 
     acte0() { // L'homme se déplace vers le milieu
         // Personnage
-        for (let personnage of personnages) {
+        for (let personnage of this.personnages) {
             if (personnage.role === 'homme') {
                 personnage.move(personnage, this.pas, (window.innerWidth / 2) - 20, 'right');
                 break;
             }
         }
-        // Etoile
-        showEtoiles();
         setInterval(() => {
-            for (let etoile of etoiles) {
+            for (let etoile of this.etoiles) {
                 if (etoile.etoile.id !== 'specialOne') {
                     etoile.anime();
                 }
@@ -73,7 +159,7 @@ class Cinema {
     }
 
     acte2() { // On la fait scintiller
-        for (let etoile of etoiles) {
+        for (let etoile of this.etoiles) {
             if (etoile.etoile.id === 'specialOne') {
                 etoile.nbState = 3;
                 setInterval(() => {
@@ -88,7 +174,7 @@ class Cinema {
 
     acte3() { // L'homme se rapproche de l'étoile filante et la femme se montre
         // Personnage
-        for (let personnage of personnages) {
+        for (let personnage of this.personnages) {
             if (personnage.role === 'homme') {
                 personnage.move(personnage, this.pas, window.innerWidth / 2, 'right');
             }
@@ -103,7 +189,7 @@ class Cinema {
     acte5() { // L'homme et la femme se rapproche l'un de l'autre
         setTimeout(() => {
             // Personnage
-            for (let personnage of personnages) {
+            for (let personnage of this.personnages) {
                 if (personnage.role === 'femme') {
                     personnage.move(personnage, this.pas + 19, (window.innerWidth / 1.7) + 50, 'left');
                 }
@@ -121,7 +207,7 @@ class Cinema {
     acte7() { // Ils reviennent tous les deux près de l'étoile filante
         setTimeout(() => {
             // Personnage
-            for (let personnage of personnages) {
+            for (let personnage of this.personnages) {
                 if (personnage.role === 'homme') {
                     personnage.move(personnage, this.pas, window.innerWidth / 2, 'left');
                 }
@@ -137,7 +223,7 @@ class Cinema {
     acte9() { // L'homme se rapproche de l'étoile filante
         setTimeout(() => {
             // Personnage
-            for (let personnage of personnages) {
+            for (let personnage of this.personnages) {
                 if (personnage.role === 'homme') {
                     personnage.move(personnage, this.pas, window.innerWidth / 2 + 25, 'right');
                 }
@@ -145,17 +231,16 @@ class Cinema {
         }, 1000)
     }
 
-    moveSpecialOne;
     acte10() { // L'homme accorche l'étoile filante à la boutonnière de la femme
         setTimeout(() => {
             // Personnage
-            for (let personnage of personnages) {
+            for (let personnage of this.personnages) {
                 if (personnage.role === 'homme') {
                     personnage.move(personnage, this.pas, window.innerWidth / 2 + 25, 'right');
                 }
             }
             setTimeout( () => {
-                for (let etoile of etoiles) {
+                for (let etoile of this.etoiles) {
                     if (etoile.etoile.id === 'specialOne') {
                         this.moveSpecialOne = setInterval(() => {
                             if (getValueCss(etoile.etoile.style.top, "px") < (window.innerHeight * 0.65) - 35) {
@@ -173,7 +258,7 @@ class Cinema {
     acte11() { // Ils repartent ensemble
         setTimeout(() => {
             // Personnage
-            for (let personnage of personnages) {
+            for (let personnage of this.personnages) {
                 if (personnage.role === 'homme') {
                     personnage.move(personnage, 1, window.innerWidth + 25, 'right');
                 }
@@ -182,7 +267,7 @@ class Cinema {
                 }
             }
             this.moveSpecialOne = setInterval(() => {
-                for (let etoile of etoiles) {
+                for (let etoile of this.etoiles) {
                     if (etoile.etoile.id === 'specialOne') {
                         etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
                     }
@@ -207,7 +292,7 @@ class Cinema {
 
             // Bouger les étoiles
             if (nbMoved < (window.innerHeight)) {
-                for (let etoile of etoiles) {
+                for (let etoile of this.etoiles) {
                     etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 1) + "px";
                     if (etoile.etoile.id === "specialOne") {
                         etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 1) + "px";
@@ -219,15 +304,7 @@ class Cinema {
 
             // Afficher titre
             if (nbMoved === 200) {
-                let div = document.createElement('div');
-                div.id = "titre";
-                div.style.top = window.innerHeight / 3 + 'px';
-                document.getElementById('cinema').appendChild(div);
-
-                let h1 = document.createElement('h1');
-                h1.innerText = 'Scintillant';
-                h1.className = 'start';
-                div.appendChild(h1);
+                this.createTitre();
             }
 
             if (nbMoved === 240) {
@@ -257,7 +334,7 @@ class Etoile {
         etoile.style.width = '20px';
         etoile.style.zIndex = '-1';
         this.etoile = etoile;
-        etoiles.push(this);
+        cinema.etoiles.push(this);
 
         this.nbState = nbState;
     }
@@ -283,28 +360,6 @@ class Etoile {
     }
 }
 
-function showEtoiles() {
-    let nbEtoile = window.innerWidth / 15;
-    for (let i = 0; i < 15 * nbEtoile / 100; i++) {
-        let etoile = new Etoile(3).etoile;
-        document.getElementById('cinema').appendChild(etoile);
-    }
-    for (let i = 0; i < 25 * nbEtoile / 100; i++) {
-        let etoile = new Etoile(2).etoile;
-        document.getElementById('cinema').appendChild(etoile);
-    }
-    for (let i = 0; i < 60 * nbEtoile / 100; i++) {
-        let etoile = new Etoile(1).etoile;
-        document.getElementById('cinema').appendChild(etoile);
-    }
-    // Special one
-    let etoile = new Etoile(1).etoile;
-    etoile.setAttribute('id', "specialOne");
-    etoile.style.top = (Math.random() * window.innerHeight * 0.3) + 'px';
-    etoile.style.zIndex = '1';
-    document.getElementById('cinema').appendChild(etoile);
-}
-
 // Personnage
 class Personnage {
     constructor(role, positionDepart) {
@@ -315,7 +370,7 @@ class Personnage {
         img.id = 'role' + role;
         img.style.left = positionDepart + 'px';
         this.personnage = img;
-        personnages.push(this);
+        cinema.personnages.push(this);
 
         this.x = positionDepart;
         this.role = role;
@@ -353,65 +408,6 @@ class Personnage {
         clearInterval(this.movePersonnageAction);
         cinema.nextActe();
     }
-}
-
-// Clip
-let cinema;
-let etoiles;
-let personnages;
-
-let cinemaStopAuto;
-
-function initClip() {
-    etoiles = [];
-    personnages = [];
-    cinema = new Cinema();
-}
-
-function startClip() {
-    console.log('Clip - start');
-    initClip();
-
-    let solPosition = window.innerHeight * 0.35 + 'px';
-
-    // Architecture
-    let main = document.createElement('main');
-    main.id = 'cinema';
-    document.getElementsByTagName('body')[0].appendChild(main);
-    {
-        let terre = document.createElement('div');
-        terre.id = 'terre';
-        terre.style.bottom = solPosition;
-        main.appendChild(terre);
-        {
-            let paysage = document.createElement('div');
-            paysage.className = 'paysage';
-            terre.appendChild(paysage);
-
-            let homme = new Personnage('homme', window.innerWidth / 4).personnage;
-            terre.appendChild(homme);
-
-            let femme = new Personnage('femme', window.innerWidth + 21).personnage;
-            terre.appendChild(femme);
-        }
-        let footer = document.createElement('footer');
-        footer.style.height = solPosition;
-        main.appendChild(footer);
-    }
-    // Start
-    cinema.start();
-}
-
-function stopClip() {
-    console.log('Clip - stop');
-    cinema.stop();
-    clearTimeout(cinemaStopAuto);
-    clearTimeout(cinema.moveSpecialOne);
-    setTimeout(() => {
-        document.getElementById('cinema').remove();
-        startInterlude();
-        stopMusic();
-    }, 10000)
 }
 
 // Interlude
@@ -456,10 +452,10 @@ function startMusic() {
     music.play()
         .then()
         .then(()=> {
-            startClip();
+            cinema.start();
             cinemaStopAuto = setTimeout(() => {
-                stopClip();
-            },164000) // TODO 164000
+                cinema.stop();
+            },164000)
         })
         .catch(() => {
             startInterlude();
@@ -473,6 +469,9 @@ function stopMusic() {
 }
 
 //
+let cinema;
+let cinemaStopAuto;
 window.onload = () => {
+    cinema = new Cinema();
     startMusic();
 }

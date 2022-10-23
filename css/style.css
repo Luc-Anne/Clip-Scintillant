@@ -10,7 +10,7 @@ body {
 
 body.cinemaStart {
     animation: cinemaStart;
-    animation-duration: 10s; /* TODO 10s */
+    animation-duration: 10s;
     animation-timing-function: linear;
     background-color: #060c42;
 }
@@ -26,7 +26,7 @@ body.cinemaStart {
 
 body.cinemaStop {
     animation: cinemaStop;
-    animation-duration: 10s; /* TODO 10s */
+    animation-duration: 10s;
     animation-timing-function: linear;
     background-color: black;
 }
@@ -144,7 +144,7 @@ main .personnage {
 
     opacity: 1;
     animation: linear personnageOpacity;
-    animation-duration: 10s; /* TODO 30s */
+    animation-duration: 10s;
 }
 
 @keyframes personnageOpacity {
@@ -161,7 +161,7 @@ main .etoile {
 
     opacity: 80%;
     animation: linear etoileOpacity;
-    animation-duration: 30s; /* TODO 30s */
+    animation-duration: 30s;
 }
 
 @keyframes etoileOpacity {
