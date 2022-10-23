@@ -423,8 +423,12 @@ function startInterlude() {
 
     let img = document.createElement('img');
     img.src = 'images/play.svg';
-    img.style.bottom = window.innerHeight / 2 + 'px';
-    img.style.left = window.innerWidth / 2 + 'px';
+    let size = (window.innerHeight / 4);
+    let positionHeight = (window.innerHeight / 2) - (size / 2);
+    let positionWidth = (window.innerWidth / 2) - (size / 2);
+    img.style.height = size + 'px';
+    img.style.bottom = positionHeight + 'px';
+    img.style.left = positionWidth + 'px';
     container.appendChild(img);
 
     img.addEventListener('click', () => {
