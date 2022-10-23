@@ -115,7 +115,7 @@ class Cinema {
         document.getElementsByTagName('body')[0].className = 'cinemaStop';
         clearTimeout(cinemaStopAuto);
 
-        this.wait(1000).then(() => {
+        this.wait(10000).then(() => {
             for (let personnage of this.personnages) {
                 personnage.resetPersonnage();
             }
@@ -241,7 +241,7 @@ class Cinema {
         this.actionDeplacerPersonnage('femme', (window.innerWidth / 1.5) + 50, 'left', this.pas + 19);
     }
 
-    // acte4() {} Inutile car il y a deux personnages qui bougent
+    // acte4 Inutile car il faut attendre l'autre personnage qui marche
 
     acte5() { // La femme fuit par peur et l'homme va la chercher
         this.wait(3000).then(() => {
@@ -252,17 +252,16 @@ class Cinema {
         })
     }
 
-    // acte6() {} Inutile car il y a deux personnages qui bougent
+    // acte6 Inutile car il faut attendre l'autre personnage qui marche
 
     acte7() { // Ils reviennent tous les deux près de l'étoile filante
         this.wait(3000).then(() => {
-            console.log("why");
             this.actionDeplacerPersonnage('homme', window.innerWidth / 2, 'left');
             this.actionDeplacerPersonnage('femme', (window.innerWidth / 2) + 50, 'left', this.pas + 19);
         })
     }
 
-    // acte8() {} Inutile car il y a deux personnages qui bougent
+    // acte8 Inutile car il faut attendre l'autre personnage qui marche
 
     acte9() { // L'homme se rapproche de l'étoile filante
         this.wait(3000).then(() => {
@@ -336,13 +335,10 @@ class Cinema {
             }
 
             // Afficher titre
-            if (nbMoved === 200) {
-                this.createTitre();
-            }
+            nbMoved === 200 ? this.createTitre() : null;
 
-            if (nbMoved === 240) {
-                document.getElementById('titre').firstElementChild.className = 'boucle';
-            }
+            nbMoved === 240 ? document.getElementById('titre').firstElementChild.className = 'boucle' : null;
+
         }, 100, nbMoved)
     }
 }
@@ -355,47 +351,41 @@ class Etoile {
         cinema.etoiles.push(this);
 
         etoile.src = 'images/etoile/1.svg';
-        etoile.className = 'etoile';
-        etoile.alt = 'etoile';
-        // Data
         etoile.setAttribute('data-state', '1');
-        if (typeof top === "undefined" && typeof left === "undefined") {
+        etoile.className = 'etoile';
+        etoile.alt = '⭐';
+        etoile.style.height = '20px';
+        etoile.style.width = '20px';
+        etoile.style.zIndex = '-5';
+
+        if (typeof top === "undefined" || typeof left === "undefined") {
             this.placeRandomly();
         } else {
             this.etoile.style.left = left + 'px';
             this.etoile.style.top = top + 'px';
         }
-        etoile.style.height = '20px';
-        etoile.style.width = '20px';
-        etoile.style.zIndex = '-5';
 
         this.nbState = nbState;
     }
 
     placeRandomly() {
-        if (0.5 < Math.random()) {
-            this.etoile.style.top = (Math.random() * window.innerHeight * 0.8) + 'px';
-        } else {
-            this.etoile.style.top = -(Math.random() * window.innerHeight) + 'px';
-        }
         this.etoile.style.left = (Math.random() * window.innerWidth ) + 'px';
+        this.etoile.style.top = 0.5 < Math.random() ?
+            this.etoile.style.top = (Math.random() * window.innerHeight * 0.8) + 'px'
+            : -(Math.random() * window.innerHeight) + 'px';
     }
 
     anime() {
-        if (0.2 > Math.random()) {
-            this.scintille(false);
-        }
+        0.2 > Math.random() ? this.scintille(false) : null;
     }
 
     scintille(isSpecialOne) {
         let state = parseInt(this.etoile.getAttribute('data-state'));
         state = state < this.nbState ? state + 1 : 1;
-        if (isSpecialOne && state === 1) {
+        if (isSpecialOne) {
             if (0.25 < Math.random()) {
                 state = 2;
             }
-        } else if (0.25 < Math.random()) {
-            state = 2;
         }
         this.etoile.setAttribute('data-state', '' + state);
         this.etoile.src = 'images/etoile/' + state + '.svg';

@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Dancing+Script');
 
+/* body*/
+
 body {
     margin: 0;
     padding: 0;
 
+    /* Échantillon de couleurs */
     /* #060c42 */
     /* #030726 */
     /* #05082b */
@@ -60,68 +63,12 @@ body #playBtn img {
     /* height */
 }
 
-/* Clip */
+/* Cinema */
 
 main {
     min-height: 1vh;
 
     color: white;
-}
-
-main #titre {
-    position: relative;
-    /* top */
-
-    text-align: center;
-    opacity: 0.8;
-    font-family: Dancing Script, serif;
-    font-size: 2rem;
-
-    user-select: none;
-}
-
-main #titre h1.start {
-    animation: 4s linear titreh1Start;
-    animation-iteration-count: infinite;
-}
-
-main #titre h1.boucle {
-    animation: 4s ease-in-out titreh1Boucle;
-    animation-direction: alternate;
-    animation-iteration-count: infinite;
-}
-
-@keyframes titreh1Start {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 0.6;
-    }
-}
-
-@keyframes titreh1Boucle {
-    0% {
-        opacity: 0.6;
-    }
-
-    100% {
-        opacity: 0.99;
-    }
-}
-
-main footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    /* height */
-
-    margin: 0;
-    padding: 0;
-
-    background-color: black;
 }
 
 main #terre {
@@ -170,6 +117,19 @@ main #cielDegrade {
     }
 }
 
+main footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* height */
+
+    margin: 0;
+    padding: 0;
+
+    background-color: black;
+}
+
 main .personnage {
     height: 45px;
     position: relative;
@@ -206,5 +166,48 @@ main .etoile {
     }
     100% {
         opacity: 80%;
+    }
+}
+
+main #titre {
+    position: relative;
+    /* top */
+
+    text-align: center;
+    opacity: 0.8;
+    font-family: Dancing Script, serif;
+    font-size: 2rem;
+
+    user-select: none;
+}
+
+main #titre h1.start {
+    animation: 4s linear titreh1Start;
+    animation-iteration-count: infinite;
+}
+
+@keyframes titreh1Start {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+main #titre h1.boucle {
+    animation: 4s ease-in-out titreh1Boucle;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes titreh1Boucle {
+    0% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0.99;
     }
 }
