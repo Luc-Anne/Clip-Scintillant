@@ -115,7 +115,7 @@ class Cinema {
         document.getElementsByTagName('body')[0].className = 'cinemaStop';
         clearTimeout(cinemaStopAuto);
 
-        setTimeout(() => {
+        this.wait(1000).then(() => {
             for (let personnage of this.personnages) {
                 personnage.resetPersonnage();
             }
@@ -125,7 +125,7 @@ class Cinema {
 
             startInterlude();
             stopMusic();
-        }, 10000)
+        })
     }
 
     getSpecialOne() {
@@ -134,6 +134,12 @@ class Cinema {
                 return etoile;
             }
         }
+    }
+
+    wait(millisecond) {
+        return new Promise(function (resolve) {
+            setTimeout(() => {resolve();}, millisecond)
+        })
     }
 
     actionDeplacerPersonnage(role, to, direction, pas) {
@@ -177,7 +183,7 @@ class Cinema {
 
     acte1() { // L'étoile filante tombe
         let specialOne = this.getSpecialOne();
-        setTimeout(() => {
+        this.wait(20000).then(() => {
             // Coordonnées
             let origin = {x: specialOne.etoile.x, y: specialOne.etoile.y};
             let dest = {x: (window.innerWidth / 2) + 30, y: window.innerHeight * 0.64};
@@ -216,7 +222,7 @@ class Cinema {
                 currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
 
             }, 10);
-        }, 20000)
+        })
     }
 
     acte2() { // On la fait scintiller
@@ -225,13 +231,12 @@ class Cinema {
         this.loopScintilleSpecialOne = setInterval(() => {
             etoile.scintille(true);
         },100)
-        setTimeout(() => {
+        this.wait(3000).then(() => {
             this.nextActe()
-        }, 3000)
+        })
     }
 
     acte3() { // L'homme se rapproche de l'étoile filante et la femme se montre
-        // Personnage
         this.actionDeplacerPersonnage('homme', window.innerWidth / 2, 'right');
         this.actionDeplacerPersonnage('femme', (window.innerWidth / 1.5) + 50, 'left', this.pas + 19);
     }
@@ -239,39 +244,36 @@ class Cinema {
     // acte4() {} Inutile car il y a deux personnages qui bougent
 
     acte5() { // La femme fuit par peur et l'homme va la chercher
-        setTimeout(() => {
-            // Personnage
+        this.wait(3000).then(() => {
             this.actionDeplacerPersonnage('femme', window.innerWidth + 50, 'right', this.pas - 19);
-            setTimeout(() => {
+            this.wait(2000).then(() => {
                 this.actionDeplacerPersonnage('homme', window.innerWidth + 25, 'right');
-            },2000);
-        }, 3000)
+            });
+        })
     }
 
     // acte6() {} Inutile car il y a deux personnages qui bougent
 
     acte7() { // Ils reviennent tous les deux près de l'étoile filante
-        setTimeout(() => {
-            // Personnage
+        this.wait(3000).then(() => {
+            console.log("why");
             this.actionDeplacerPersonnage('homme', window.innerWidth / 2, 'left');
             this.actionDeplacerPersonnage('femme', (window.innerWidth / 2) + 50, 'left', this.pas + 19);
-        }, 3000)
+        })
     }
 
     // acte8() {} Inutile car il y a deux personnages qui bougent
 
     acte9() { // L'homme se rapproche de l'étoile filante
-        setTimeout(() => {
-            // Personnage
+        this.wait(3000).then(() => {
             this.actionDeplacerPersonnage('homme', window.innerWidth / 2 + 25, 'right');
-        }, 1000)
+        })
     }
 
     acte10() { // L'homme accroche l'étoile filante à la boutonnière de la femme
-        setTimeout(() => {
-            // Personnage
+        this.wait(3000).then(() => {
             this.actionDeplacerPersonnage('homme', window.innerWidth / 2 + 25, 'right');
-            setTimeout( () => {
+            this.wait(1000).then(() => {
                 let etoile = this.getSpecialOne();
                 this.loopMoveSpecialOne = setInterval(() => {
                     if (getValueCss(etoile.etoile.style.top, "px") < (window.innerHeight * 0.65) - 35) {
@@ -279,14 +281,13 @@ class Cinema {
                     }
                     etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") - 2) + "px";
                     etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
-                }, 100)
-            }, 1000);
-        }, 3000)
+                }, 100);
+            })
+        })
     }
 
     acte11() { // Ils repartent ensemble
-        setTimeout(() => {
-            // Personnage
+        this.wait(3000).then(() => {
             this.actionDeplacerPersonnage('homme', window.innerWidth + 25, 'right', 1);
             this.actionDeplacerPersonnage('femme', window.innerWidth + 100, 'right', 1 - 19);
             this.loopMoveSpecialOneFinale = setInterval(() => {
@@ -294,7 +295,7 @@ class Cinema {
                 etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
             }, 100);
             this.nextActe();
-        }, 3000)
+        })
     }
 
     acte12() { // La caméra monte pour la fin
