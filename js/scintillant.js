@@ -6,15 +6,28 @@ function getValueCss(value, unit) {
 //Cinema
 class Cinema {
     constructor() {
-        this.currentAct = -1;
-        this.pas = 5;
+        this.pas = 4;
         this.resetCinema();
     }
 
     resetCinema() {
+        this.currentAct = -1;
         this.etoiles = [];
         this.personnages = [];
-        this.moveSpecialOne = '';
+        try{
+            clearInterval(this.loopEtoiles);
+            clearInterval(this.loopTrajectoire);
+            clearInterval(this.loopScintilleSpecialOne);
+            clearInterval(this.loopMoveSpecialOne);
+            clearInterval(this.loopMoveSpecialOneFinale);
+            clearInterval(this.loopFinish);
+        } catch (e) {}
+        this.loopEtoiles = '';
+        this.loopTrajectoire = '';
+        this.loopScintilleSpecialOne = '';
+        this.loopMoveSpecialOne = '';
+        this.loopMoveSpecialOneFinale = '';
+        this.loopFinish = '';
     }
 
     initCinema() {
@@ -100,10 +113,16 @@ class Cinema {
     stop() {
         console.log('Cinema - stop');
         document.getElementsByTagName('body')[0].className = 'cinemaStop';
-        clearTimeout(this.moveSpecialOne);
         clearTimeout(cinemaStopAuto);
+
         setTimeout(() => {
+            for (let personnage of this.personnages) {
+                personnage.resetPersonnage();
+            }
+            this.resetCinema();
+
             document.getElementById('cinema').remove();
+
             startInterlude();
             stopMusic();
         }, 10000)
@@ -133,7 +152,7 @@ class Cinema {
                 break;
             }
         }
-        setInterval(() => {
+        this.loopEtoiles = setInterval(() => {
             for (let etoile of this.etoiles) {
                 if (etoile.etoile.id !== 'specialOne') {
                     etoile.anime();
@@ -155,9 +174,9 @@ class Cinema {
                     let currentPlace = {x: origin.x, y:origin.y};
                     let currentPlaceStraight = {x: origin.x, y:origin.y};
                     let percentageTodo = 1;
-                    let trajectoire = setInterval(() => {
+                    this.loopTrajectoire = setInterval(() => {
                         if(currentPlace.y > dest.y) {
-                            clearInterval(trajectoire);
+                            clearInterval(this.loopTrajectoire);
                             this.nextActe();
                         }
 
@@ -194,7 +213,7 @@ class Cinema {
         for (let etoile of this.etoiles) {
             if (etoile.etoile.id === 'specialOne') {
                 etoile.nbState = 3;
-                setInterval(() => {
+                this.loopScintilleSpecialOne = setInterval(() => {
                     etoile.scintille(true);
                 },100)
                 setTimeout(() => {
@@ -218,16 +237,16 @@ class Cinema {
 
     // acte4() {} Inutile car il y a deux personnages qui bougent
 
-    acte5() { // L'homme et la femme se rapproche l'un de l'autre
+    acte5() { // La femme fuit par peur et l'homme va la chercher
         setTimeout(() => {
             // Personnage
             for (let personnage of this.personnages) {
                 if (personnage.role === 'femme') {
-                    personnage.move(personnage, this.pas + 19, (window.innerWidth / 1.7) + 50, 'left');
+                    personnage.move(personnage, this.pas - 19, window.innerWidth + 50, 'right');
                 }
                 setTimeout(() => {
                     if (personnage.role === 'homme') {
-                        personnage.move(personnage, this.pas, (window.innerWidth / 1.7) + 25, 'right');
+                        personnage.move(personnage, this.pas, window.innerWidth + 25, 'right');
                     }
                 },2000);
             }
@@ -274,9 +293,9 @@ class Cinema {
             setTimeout( () => {
                 for (let etoile of this.etoiles) {
                     if (etoile.etoile.id === 'specialOne') {
-                        this.moveSpecialOne = setInterval(() => {
+                        this.loopMoveSpecialOne = setInterval(() => {
                             if (getValueCss(etoile.etoile.style.top, "px") < (window.innerHeight * 0.65) - 35) {
-                                clearInterval(this.moveSpecialOne);
+                                clearInterval(this.loopMoveSpecialOne);
                             }
                             etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") - 2) + "px";
                             etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
@@ -298,7 +317,7 @@ class Cinema {
                     personnage.move(personnage, 1 - 19, window.innerWidth + 100, 'right');
                 }
             }
-            this.moveSpecialOne = setInterval(() => {
+            this.loopMoveSpecialOneFinale = setInterval(() => {
                 for (let etoile of this.etoiles) {
                     if (etoile.etoile.id === 'specialOne') {
                         etoile.etoile.style.left = (getValueCss(etoile.etoile.style.left, "px") + 1) + "px";
@@ -311,7 +330,7 @@ class Cinema {
 
     acte12() { // La caméra monte pour la fin
         let nbMoved = 0;
-        this.moveActeA = setInterval(()=>{
+        this.loopFinish = setInterval(()=>{
             nbMoved += 1;
             // Bouger le sol
             if (nbMoved < (window.innerHeight / 2)) {
@@ -320,6 +339,12 @@ class Cinema {
 
                 let cielDegrade = document.getElementById('cielDegrade');
                 cielDegrade.style.bottom = (getValueCss(cielDegrade.style.bottom, "px") - 2) + "px";
+
+                for (let etoile of this.etoiles) {
+                    if (etoile.etoile.id === "specialOne") {
+                        etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 2) + "px";
+                    }
+                }
 
                 let footer = document.getElementsByTagName('footer')[0];
                 footer.style.height = (getValueCss(footer.style.height, "px") - 2) + "px";
@@ -335,13 +360,12 @@ class Cinema {
             // Bouger les étoiles
             if (nbMoved < (window.innerHeight)) {
                 for (let etoile of this.etoiles) {
-                    etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 1) + "px";
-                    if (etoile.etoile.id === "specialOne") {
+                    if (etoile.etoile.id !== "specialOne") {
                         etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 1) + "px";
                     }
                 }
             } else {
-                clearInterval(this.moveActeA);
+                clearInterval(this.loopFinish);
             }
 
             // Afficher titre
@@ -431,7 +455,14 @@ class Personnage {
 
         this.x = positionDepart;
         this.role = role;
-        this.movePersonnageAction = '';
+        this.resetPersonnage();
+    }
+
+    resetPersonnage() {
+        try {
+            clearInterval(this.loopMovePersonnageAction);
+        } catch (e) {}
+        this.loopMovePersonnageAction = '';
     }
 
     getPosition() {
@@ -439,7 +470,7 @@ class Personnage {
     }
 
     move(personnage, pas, to, direction) {
-        this.movePersonnageAction = setInterval(() => {
+        this.loopMovePersonnageAction = setInterval(() => {
             let position = personnage.getPosition();
             let newPosition;
             if (direction === 'right') {
@@ -462,7 +493,7 @@ class Personnage {
     }
 
     stop() {
-        clearInterval(this.movePersonnageAction);
+        clearInterval(this.loopMovePersonnageAction);
         cinema.nextActe();
     }
 }
