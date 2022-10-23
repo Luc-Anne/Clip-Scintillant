@@ -67,6 +67,8 @@ body #playBtn img {
 
 main {
     min-height: 1vh;
+    margin: 0;
+    padding: 0;
 
     color: white;
 }
