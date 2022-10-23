@@ -3,12 +3,6 @@ function getValueCss(value, unit) {
     return parseFloat(value.substring(0, value.indexOf(unit)));
 }
 
-let music = new Audio('musics/Scintillant.mp3');
-music.loop = false;
-music.play()
-    .then()
-    .catch(() => alert('This is more about music.\nPlease accept autoplay sound in your browsers parameters for this time.'));
-
 //Cinema
 class Cinema {
     constructor() {
@@ -40,7 +34,6 @@ class Cinema {
             case 11: this.acte11(); break;
             case 12: this.acte12(); break;
         }
-        console.log('acte' + this.currentAct);
     }
 
     acte0() { // L'homme se déplace vers le milieu
@@ -222,12 +215,19 @@ class Cinema {
                 }
             } else {
                 clearInterval(this.moveActeA);
-                this.stop();
             }
 
             // Afficher titre
             if (nbMoved === 200) {
-                afficherTitre();
+                let div = document.createElement('div');
+                div.id = "titre";
+                div.style.top = window.innerHeight / 3 + 'px';
+                document.getElementById('cinema').appendChild(div);
+
+                let h1 = document.createElement('h1');
+                h1.innerText = 'Scintillant';
+                h1.className = 'start';
+                div.appendChild(h1);
             }
 
             if (nbMoved === 240) {
@@ -355,19 +355,22 @@ class Personnage {
     }
 }
 
-// Cinema
+// Clip
+let cinema;
 let etoiles;
 let personnages;
-let cinema;
 
-function initCinema() {
+let cinemaStopAuto;
+
+function initClip() {
     etoiles = [];
     personnages = [];
     cinema = new Cinema();
 }
 
-function startCinema() {
-    initCinema();
+function startClip() {
+    console.log('Clip - start');
+    initClip();
 
     let solPosition = window.innerHeight * 0.35 + 'px';
 
@@ -399,31 +402,77 @@ function startCinema() {
     cinema.start();
 }
 
-function stopCinema() {
+function stopClip() {
+    console.log('Clip - stop');
     cinema.stop();
     clearTimeout(cinemaStopAuto);
     clearTimeout(cinema.moveSpecialOne);
     setTimeout(() => {
         document.getElementById('cinema').remove();
+        startInterlude();
+        stopMusic();
     }, 10000)
 }
 
-function afficherTitre() {
-    let div = document.createElement('div');
-    div.id = "titre";
-    div.style.top = window.innerHeight / 3 + 'px';
-    document.getElementById('cinema').appendChild(div);
+// Interlude
+function startInterlude() {
+    console.log('Interlude - start');
 
-    let h1 = document.createElement('h1');
-    h1.innerText = 'Scintillant';
-    h1.className = 'start';
-    div.appendChild(h1);
+    let body = document.getElementsByTagName('body')[0];
+    body.className = 'interlude';
+
+    let container = document.createElement('div');
+    container.id = 'playBtn';
+    body.appendChild(container);
+
+    let img = document.createElement('img');
+    img.src = 'images/play.svg';
+    img.style.bottom = window.innerHeight / 2 + 'px';
+    img.style.left = window.innerWidth / 2 + 'px';
+    container.appendChild(img);
+
+    img.addEventListener('click', () => {
+        play();
+    })
 }
 
-let cinemaStopAuto;
+function stopInterlude() {
+    console.log('Interlude - stop');
+    document.getElementById('playBtn').remove();
+}
+
+function play() {
+    stopInterlude();
+    startMusic();
+}
+
+// Music
+let music;
+
+function startMusic() {
+    console.log('Musique - start');
+    music = new Audio('musics/Scintillant.mp3');
+    music.loop = false;
+    music.play()
+        .then()
+        .then(()=> {
+            startClip();
+            cinemaStopAuto = setTimeout(() => {
+                stopClip();
+            },164000) // TODO 164000
+        })
+        .catch(() => {
+            startInterlude();
+        });
+}
+
+function stopMusic() {
+    console.log('Musique - stop');
+    music.pause();
+    music.currentTime = 0;
+}
+
+//
 window.onload = () => {
-    startCinema();
-    cinemaStopAuto = setTimeout(() => {
-        stopCinema();
-    },164000)
+    startMusic();
 }

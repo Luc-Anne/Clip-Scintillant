@@ -6,7 +6,6 @@ body {
 
     /* #060c42; */
     /* #030726; */
-
 }
 
 body.cinemaStart {
@@ -42,6 +41,25 @@ body.cinemaStop {
         background-color: black;
     }
 }
+
+body.interlude {
+    background-color: black;
+}
+
+/* Interlude */
+
+body #playBtn {
+    margin: auto;
+}
+
+body #playBtn img {
+    position: fixed;
+    /* bottom */
+    /* left */
+    height: 25%;
+}
+
+/* Clip */
 
 main {
     min-height: 1vh;
