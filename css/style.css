@@ -54,6 +54,7 @@ body.interlude {
 
 body #playBtn {
     margin: auto;
+    text-align: center;
 }
 
 body #playBtn img {

@@ -32,6 +32,7 @@ class Cinema {
 
     initCinema() {
         this.resetCinema();
+        onStage = true;
         this.createCinema();
         this.createPersonnage();
         this.createEtoiles();
@@ -110,22 +111,29 @@ class Cinema {
         this.nextActe();
     }
 
-    stop() {
-        console.log('Cinema - stop');
-        document.getElementsByTagName('body')[0].className = 'cinemaStop';
+    stopTransition() {
         clearTimeout(cinemaStopAuto);
 
+        document.getElementsByTagName('body')[0].className = 'cinemaStop';
+
         this.wait(10000).then(() => {
-            for (let personnage of this.personnages) {
-                personnage.resetPersonnage();
-            }
-            this.resetCinema();
-
-            document.getElementById('cinema').remove();
-
-            startInterlude();
-            stopMusic();
+            this.stop();
         })
+    }
+
+    stop() {
+        console.log('Cinema - stop');
+        clearTimeout(cinemaStopAuto);
+
+        for (let personnage of this.personnages) {
+            personnage.resetPersonnage();
+        }
+        this.resetCinema();
+
+        document.getElementById('cinema').remove();
+
+        startInterlude();
+        stopMusic();
     }
 
     getSpecialOne() {
@@ -468,6 +476,8 @@ class Personnage {
 function startInterlude() {
     console.log('Interlude - start');
 
+    onStage = false;
+
     let body = document.getElementsByTagName('body')[0];
     body.className = 'interlude';
 
@@ -477,12 +487,8 @@ function startInterlude() {
 
     let img = document.createElement('img');
     img.src = 'images/play.svg';
-    let size = (window.innerHeight / 4);
-    let positionHeight = (window.innerHeight / 2) - (size / 2);
-    let positionWidth = (window.innerWidth / 2) - (size / 2);
-    img.style.height = size + 'px';
-    img.style.bottom = positionHeight + 'px';
-    img.style.left = positionWidth + 'px';
+    img = centerPlayBtn(img);
+
     container.appendChild(img);
 
     img.addEventListener('click', () => {
@@ -500,6 +506,16 @@ function play() {
     startMusic();
 }
 
+function centerPlayBtn(img) {
+    let size = (window.innerHeight / 4);
+    let positionHeight = (window.innerHeight / 2) - (size / 2);
+    let positionWidth = (window.innerWidth / 2) - (size / 2);
+    img.style.height = size + 'px';
+    img.style.bottom = positionHeight + 'px';
+    img.style.left = positionWidth + 'px';
+    return img;
+}
+
 // Music
 let music;
 
@@ -512,7 +528,7 @@ function startMusic() {
         .then(()=> {
             cinema.start();
             cinemaStopAuto = setTimeout(() => {
-                cinema.stop();
+                cinema.stopTransition();
             },164000)
         })
         .catch(() => {
@@ -526,10 +542,27 @@ function stopMusic() {
     music.currentTime = 0;
 }
 
+
+
 //
 let cinema;
 let cinemaStopAuto;
+let onStage = false;
 window.onload = () => {
     cinema = new Cinema();
     startMusic();
 }
+
+addEventListener('resize', ()=>{
+    if (onStage) {
+        cinema.stop();
+        let h1 = document.createElement('h1');
+        h1.innerText = "Please don't resize during animation";
+        h1.style.position = 'relative';
+        h1.style.top = window.innerHeight / 2 + 'px';
+        h1.style.color = '#444444';
+        document.getElementById('playBtn').appendChild(h1);
+    } else {
+        centerPlayBtn(document.getElementById('playBtn').firstElementChild);
+    }
+});
