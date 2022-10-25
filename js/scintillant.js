@@ -393,7 +393,7 @@ class Etoile {
     }
 
     anime() {
-        0.2 > Math.random() ? this.scintille(false) : null;
+        0.1 > Math.random() ? this.scintille(false) : null;
     }
 
     scintille(isSpecialOne) {
