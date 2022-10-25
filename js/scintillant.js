@@ -342,9 +342,20 @@ class Cinema {
 
             // Bouger les étoiles
             if (nbMoved < (window.innerHeight)) {
-                for (let etoile of this.etoiles) {
+                let length = this.etoiles.length;
+                for (let i = 0; i < length; i++ ) {
+                    let etoile = this.etoiles[i];
                     if (etoile.etoile.id !== "specialOne") {
-                        etoile.etoile.style.top = (getValueCss(etoile.etoile.style.top, "px") + 1) + "px";
+                        let top = getValueCss(etoile.etoile.style.top, 'px');
+                        if (top > window.innerHeight - 21) {
+                            etoile.etoile.remove();
+                            this.etoiles.splice(i, 1);
+                            // Continuer avec des valeurs à jour
+                            i--;
+                            length = this.etoiles.length;
+                        } else {
+                            etoile.etoile.style.top = (top + 1) + "px";
+                        }
                     }
                 }
             } else {
