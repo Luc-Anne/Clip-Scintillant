@@ -386,7 +386,7 @@ class Etoile {
     }
 
     placeRandomly() {
-        this.etoile.style.left = (Math.random() * window.innerWidth ) + 'px';
+        this.etoile.style.left = (Math.random() * (window.innerWidth - 20) ) + 'px';
         this.etoile.style.top = 0.5 < Math.random() ?
             this.etoile.style.top = (Math.random() * window.innerHeight * 0.8) + 'px'
             : -(Math.random() * window.innerHeight) + 'px';
