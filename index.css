@@ -50,11 +50,16 @@ h1 {
 
 .musique div {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
 }
 
 .musique .lecteur {
     flex-grow: 1;
+}
+
+.musique .metadoneesChangeantes {
+    flex-grow: 1;
+    text-align: center;
 }
 
 .musique .metadonnees {
