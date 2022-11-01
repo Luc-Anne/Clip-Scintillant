@@ -87,7 +87,7 @@ main #terre {
     overflow: hidden;
     background-repeat: repeat-x;
     background-position: bottom center;
-    background-image: url('../images/paysage.svg'), url('../images/paysage2.svg');
+    background-image: url('assets/paysage.svg'), url('assets/paysage2.svg');
 }
 
 main #cielDegrade {
@@ -103,7 +103,7 @@ main #cielDegrade {
     overflow: hidden;
     background-repeat: repeat-x;
     background-position: bottom center;
-    background-image: url('../images/cielDegrade.svg');
+    background-image: url('assets/cielDegrade.svg');
 
     z-index: -1;
     animation: cielDegrade;

@@ -221,10 +221,10 @@ class Cinema {
 
                 // Changer l'apparence
                 if (percentageTodo < 0.8 && percentageTodo > 0.6){
-                    specialOne.etoile.src = 'images/etoile/2.svg';
+                    specialOne.etoile.src = 'assets/etoile/2.svg';
                 }
                 if (percentageTodo < 0.6){
-                    specialOne.etoile.src = 'images/etoile/3.svg';
+                    specialOne.etoile.src = 'assets/etoile/3.svg';
                 }
 
                 currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
@@ -378,7 +378,7 @@ class Etoile {
         this.etoile = etoile;
         cinema.etoiles.push(this);
 
-        etoile.src = 'images/etoile/1.svg';
+        etoile.src = 'assets/etoile/1.svg';
         etoile.setAttribute('data-state', '1');
         etoile.className = 'etoile';
         etoile.alt = '⭐';
@@ -416,7 +416,7 @@ class Etoile {
             }
         }
         this.etoile.setAttribute('data-state', '' + state);
-        this.etoile.src = 'images/etoile/' + state + '.svg';
+        this.etoile.src = 'assets/etoile/' + state + '.svg';
     }
 
     move(destX, destY) {
@@ -432,7 +432,7 @@ class Personnage {
         this.personnage = img;
         cinema.personnages.push(this);
 
-        img.src = 'images/personnage/' + role + '.svg';
+        img.src = 'assets/personnage/' + role + '.svg';
         img.setAttribute('alt', role);
         img.className = 'personnage';
         img.id = 'role' + role;
@@ -497,7 +497,7 @@ function startInterlude() {
     body.appendChild(container);
 
     let img = document.createElement('img');
-    img.src = 'images/play.svg';
+    img.src = 'assets/play.svg';
     img = centerPlayBtn(img);
 
     container.appendChild(img);
@@ -505,6 +505,8 @@ function startInterlude() {
     img.addEventListener('click', () => {
         play();
     })
+
+    parent.document.querySelector('iframe').remove();
 }
 
 function stopInterlude() {
@@ -532,7 +534,7 @@ let music;
 
 function startMusic() {
     console.log('Musique - start');
-    music = new Audio('musics/Scintillant.mp3');
+    music = new Audio('scintillant.mp3');
     music.loop = false;
     music.play()
         .then()

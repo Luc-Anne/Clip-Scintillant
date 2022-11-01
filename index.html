@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Scintillant</title>
-    <link href="css/style.css" type="text/css" rel="stylesheet">
-    <script src="js/scintillant.js" type="text/javascript"></script>
+    <link href="css/index.css" type="text/css" rel="stylesheet">
+    <script src="index.js" type="text/javascript" defer></script>
 </head>
 <body>
+    <h1>Musique</h1>
+    <div id="musiques">
+        <ul>
+            <li class="musique">
+                <h2>Scintillant</h2>
+                <div data-musique-lecteur="scintillant">
+                    <span class="lecteur">
+                        <span data-musique-play>Jouer la musique</span>
+                        <span data-musique-currentTime></span> / <span data-musique-duration></span>
+                        <span data-musique-reload>⟲</span>
+                    </span>
+                    <span class="metadonnees">Luc Anne, 2009</span>
+                </div>
+                <hr>
+                <div>
+                    <span class="lecteur" data-clip-play="scintillant">Jouer le clip</span>
+                    <span class="metadonnees">Luc Anne, 2022</span>
+                </div>
+                <p><i>Merci de ne pas redimentionner la fenêtre une fois que vous avez lancé le clip, afin que l'animation se déroule dans les meilleures conditions.</i></p>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

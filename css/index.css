@@ -1,0 +1,63 @@
+body {
+    margin: auto;
+    padding: 0;
+    width: 70%;
+
+    background-image: url('../assets/images/bg.png');
+    color: #555;
+}
+
+iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+#musiques ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#musiques li {
+    padding: 2% 5% 2% 5%;
+    background-color: white;
+
+    border: 1px solid #fc9b00; /*#ffd38d;*/
+    border-radius: 10px;
+}
+
+.musique hr {
+    border: 0;
+    border-top: 1px solid #fc9b00;
+}
+
+.musique h2 {
+    text-align: center;
+}
+
+.musique h2,
+.musique a {
+    color: #fc9b00;
+}
+
+.musique div {
+    display: flex;
+    flex-direction: row;
+}
+
+.musique .lecteur {
+    flex-grow: 1;
+}
+
+.musique .metadonnees {
+    flex-grow: 1;
+    text-align: right;
+}
