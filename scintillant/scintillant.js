@@ -6,7 +6,15 @@ function getValueCss(value, unit) {
 //Cinema
 class Cinema {
     constructor() {
-        this.pas = 4;
+        if (window.innerWidth > 1920) {
+            this.pas = 5;
+        } else if (window.innerWidth > 1000) {
+            this.pas = 4;
+        }else if (window.innerWidth > 600) {
+            this.pas = 3;
+        } else {
+            this.pas = 2;
+        }
         this.resetCinema();
     }
 
@@ -62,7 +70,7 @@ class Cinema {
     }
 
     createEtoiles() {
-        let nbEtoile = (window.innerWidth * window.innerHeight) / 10000;
+        let nbEtoile = Math.max((window.innerWidth * window.innerHeight) / 10000, 80);
         for (let i = 0; i < 15 * nbEtoile / 100; i++) {
             let etoile = new Etoile(3).etoile;
             document.getElementById('cinema').appendChild(etoile);

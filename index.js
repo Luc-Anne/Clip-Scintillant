@@ -8,6 +8,11 @@ document.querySelectorAll('span[data-clip-play]').forEach(
             let iframe = document.createElement('iframe');
             let title = event.target.getAttribute('data-clip-play');
             iframe.src = title + '/' + title + '.html';
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) { /* Safari */
+                iframe.webkitRequestFullscreen();
+            }
             document.getElementsByTagName('body')[0].appendChild(iframe);
             audioPause();
         });
