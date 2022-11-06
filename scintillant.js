@@ -6,11 +6,13 @@ function getValueCss(value, unit) {
 //Cinema
 class Cinema {
     constructor() {
-        if (window.innerWidth > 1920) {
+        if (window.innerWidth >= 2160) {
+            this.pas = 6;
+        } else if (window.innerWidth >= 1440) {
             this.pas = 5;
-        } else if (window.innerWidth > 1000) {
+        } else if (window.innerWidth >= 1000) {
             this.pas = 4;
-        }else if (window.innerWidth > 600) {
+        }else if (window.innerWidth >= 600) {
             this.pas = 3;
         } else {
             this.pas = 2;
