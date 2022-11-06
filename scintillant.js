@@ -141,7 +141,7 @@ class Cinema {
         document.getElementById('cinema').remove();
 
         startInterlude();
-        stopMusic();
+        stopMusicCinema();
     }
 
     getSpecialOne() {
@@ -229,10 +229,10 @@ class Cinema {
 
                 // Changer l'apparence
                 if (percentageTodo < 0.8 && percentageTodo > 0.6){
-                    specialOne.etoile.src = 'assets/etoile/2.svg';
+                    specialOne.etoile.src = 'assets/images/etoile/2.svg';
                 }
                 if (percentageTodo < 0.6){
-                    specialOne.etoile.src = 'assets/etoile/3.svg';
+                    specialOne.etoile.src = 'assets/images/etoile/3.svg';
                 }
 
                 currentPlace.y += Math.max(1, Math.floor(window.innerHeight / 200));
@@ -386,7 +386,7 @@ class Etoile {
         this.etoile = etoile;
         cinema.etoiles.push(this);
 
-        etoile.src = 'assets/etoile/1.svg';
+        etoile.src = 'assets/images/etoile/1.svg';
         etoile.setAttribute('data-state', '1');
         etoile.className = 'etoile';
         etoile.alt = '⭐';
@@ -424,7 +424,7 @@ class Etoile {
             }
         }
         this.etoile.setAttribute('data-state', '' + state);
-        this.etoile.src = 'assets/etoile/' + state + '.svg';
+        this.etoile.src = 'assets/images/etoile/' + state + '.svg';
     }
 
     move(destX, destY) {
@@ -440,7 +440,7 @@ class Personnage {
         this.personnage = img;
         cinema.personnages.push(this);
 
-        img.src = 'assets/personnage/' + role + '.svg';
+        img.src = 'assets/images/personnage/' + role + '.svg';
         img.setAttribute('alt', role);
         img.className = 'personnage';
         img.id = 'role' + role;
@@ -501,48 +501,148 @@ function startInterlude() {
     body.className = 'interlude';
 
     let container = document.createElement('div');
-    container.id = 'playBtn';
+    container.className = 'musiques';
+    container.innerHTML =
+    '        <h2>Musique</h2>' +
+    '        <div data-musique-lecteur="scintillant">' +
+    '            <span class="lecteur">' +
+    '                <span data-musique-play><img src="assets/images/boutons/play.png" alt="Jouer la musique"></span>' +
+    '                <span data-musique-reload><img src="assets/images/boutons/stop.png" alt="Stopper la musique"></span>' +
+    '            </span>' +
+    '            <div class="metadoneesChangeantes">' +
+    '                <span data-musique-currentTime></span> / <span data-musique-duration></span>' +
+    '            </div>' +
+    '        </div>' +
+    '        <h2>Clip</h2>' +
+    '        <div>' +
+    '            <span class="lecteur" data-clip-play="musiques"><img src="assets/images/boutons/play.png" alt="Jouer le clip"></span>' +
+    '            <span class="lecteur" data-fullscreen><img src="assets/images/boutons/fullscreen.png" alt="Affichage plein écran"></span>' +
+    '        </div>'
+
     body.appendChild(container);
+    positionInterlude();
+    setTimeout(() => {
+        document.getElementsByTagName('body')[0].className = 'interlude interludeStart'
+    }, 2000)
 
-    let img = document.createElement('img');
-    img.src = 'assets/play.svg';
-    img = centerPlayBtn(img);
-
-    container.appendChild(img);
-
-    img.addEventListener('click', () => {
-        play();
-    })
-
-    parent.document.querySelector('iframe').remove();
+    addEventMusicPlayer();
 }
 
 function stopInterlude() {
     console.log('Interlude - stop');
-    document.getElementById('playBtn').remove();
+    document.querySelector('.musiques').remove();
 }
 
-function play() {
-    stopInterlude();
-    startMusic();
+let audio;
+let lecteur;
+let updateCurrentTimeInterval;
+
+function addEventMusicPlayer() {
+    document.querySelectorAll('span[data-clip-play]').forEach(
+        (elt) => {
+            elt.addEventListener('click', (event) => {
+                document.getElementsByTagName('body')[0].className = 'interlude interludeStop'
+                musicPlayerStop();
+                setTimeout(() => {
+                    stopInterlude();
+                    startMusicCinema();
+                }, 2000)
+            });
+        }
+    )
+
+    document.querySelectorAll('span[data-fullscreen]').forEach(
+        (elt) => {
+            elt.addEventListener('click', (event) => {
+                let body = document.documentElement;
+                if (document.fullscreenElement == null) {
+                    if (body.requestFullscreen) {
+                        body.requestFullscreen();
+                    } else if (body.webkitRequestFullscreen) { /* Safari */
+                        body.webkitRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) { /* Safari */
+                        document.webkitExitFullscreen();
+                    }
+                }
+            });
+        }
+    )
+
+    document.querySelectorAll('div[data-musique-lecteur]').forEach(
+        (elt) => {
+            lecteur = elt;
+            let musique = elt.getAttribute('data-musique-lecteur');
+            audio = new Audio('assets/musiques/' + musique + '.mp3');
+            audio.onloadedmetadata = () => {
+                elt.querySelector('span[data-musique-duration]').innerText = floatToTime(audio.duration.toString());
+                elt.querySelector('span[data-musique-currentTime]').innerText = floatToTime(audio.currentTime.toString());
+            }
+        }
+    );
+
+    document.querySelectorAll('span[data-musique-play]').forEach(
+        (elt) => {
+            elt.addEventListener('click', (event) => {
+                if (audio.paused) {
+                    musicPlayerPlay();
+                } else {
+                    musicPlayerPause();
+                }
+            })
+        }
+    );
+
+    lecteur.querySelectorAll('span[data-musique-reload]').forEach(
+        (elt) => {
+            elt.addEventListener('click', (event) => {
+                musicPlayerStop();
+            })
+        }
+    );
 }
 
-function centerPlayBtn(img) {
-    let size = (window.innerHeight / 4);
-    let positionHeight = (window.innerHeight / 2) - (size / 2);
-    let positionWidth = (window.innerWidth / 2) - (size / 2);
-    img.style.height = size + 'px';
-    img.style.bottom = positionHeight + 'px';
-    img.style.left = positionWidth + 'px';
-    return img;
+function musicPlayerStop() {
+    musicPlayerPause();
+    audio.currentTime = 0;
+    musicPlayerUpdateCurrentTime();
+}
+
+function musicPlayerPlay() {
+    audio.play();
+    musicPlayerUpdateCurrentTime();
+    updateCurrentTimeInterval = setInterval(()=>musicPlayerUpdateCurrentTime(), 1000);
+    lecteur.querySelector('span[data-musique-play]').innerHTML =
+        '<img src="assets/images/boutons/pause.png" alt="Mettre en pause la musique">';
+}
+
+function musicPlayerPause() {
+    audio.pause();
+    clearInterval(updateCurrentTimeInterval);
+    lecteur.querySelector('span[data-musique-play]').innerHTML =
+        '<img src="assets/images/boutons/play.png" alt="Jouer la musique">';
+}
+
+function musicPlayerUpdateCurrentTime() {
+    lecteur.querySelector('span[data-musique-currentTime]').innerText = floatToTime(audio.currentTime.toString());
+}
+
+function floatToTime(float) {
+    let minutes = Math.floor(float / 60);
+    let secondes = Math.floor(float % 60);
+    let zero = secondes < 10 ? '0' : '';
+    return minutes + ':' + zero + secondes;
 }
 
 // Music
 let music;
 
-function startMusic() {
+function startMusicCinema() {
     console.log('Musique - start');
-    music = new Audio('scintillant.mp3');
+    music = new Audio('assets/musiques/scintillant.mp3');
     music.loop = false;
     music.play()
         .then()
@@ -557,13 +657,11 @@ function startMusic() {
         });
 }
 
-function stopMusic() {
+function stopMusicCinema() {
     console.log('Musique - stop');
     music.pause();
     music.currentTime = 0;
 }
-
-
 
 //
 let cinema;
@@ -571,19 +669,18 @@ let cinemaStopAuto;
 let onStage = false;
 window.onload = () => {
     cinema = new Cinema();
-    startMusic();
+    startInterlude();
+}
+
+function positionInterlude() {
+    let elem = document.querySelector('.musiques');
+    elem.style.marginTop = (window.innerHeight - (elem.clientHeight)) / 2 + 'px';
 }
 
 addEventListener('resize', ()=>{
     if (onStage) {
         cinema.stop();
-        let h1 = document.createElement('h1');
-        h1.innerText = "Please don't resize during animation";
-        h1.style.position = 'relative';
-        h1.style.top = window.innerHeight / 2 + 'px';
-        h1.style.color = '#444444';
-        document.getElementById('playBtn').appendChild(h1);
     } else {
-        centerPlayBtn(document.getElementById('playBtn').firstElementChild);
+        positionInterlude();
     }
 });
