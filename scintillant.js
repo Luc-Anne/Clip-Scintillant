@@ -115,7 +115,6 @@ class Cinema {
     }
 
     start() {
-        console.log('Cinema - start');
         this.initCinema();
         document.getElementsByTagName('body')[0].className = 'cinemaStart';
         this.nextActe();
@@ -132,7 +131,6 @@ class Cinema {
     }
 
     stop() {
-        console.log('Cinema - stop');
         clearTimeout(cinemaStopAuto);
 
         for (let personnage of this.personnages) {
@@ -495,8 +493,6 @@ class Personnage {
 
 // Interlude
 function startInterlude() {
-    console.log('Interlude - start');
-
     onStage = false;
 
     let body = document.getElementsByTagName('body')[0];
@@ -505,173 +501,34 @@ function startInterlude() {
     let container = document.createElement('div');
     container.className = 'musiques';
     container.innerHTML =
-    '        <h2>Musique</h2>' +
-    '        <div data-musique-lecteur="scintillant">' +
-    '            <span class="lecteur">' +
-    '                <span data-musique-play><img src="assets/images/boutons/play.png" alt="Jouer la musique"></span>' +
-    '                <span data-musique-reload><img src="assets/images/boutons/stop.png" alt="Stopper la musique"></span>' +
-    '            </span>' +
-    '            <div class="metadoneesChangeantes">' +
-    '                <span data-musique-currentTime></span> / <span data-musique-duration></span>' +
-    '            </div>' +
-    '        </div>' +
-    '        <h2>Clip</h2>' +
+    '    <h2>Musique</h2>' +
+    '    <div>' +
     '        <div>' +
-    '            <span class="lecteur" data-clip-play="musiques"><img src="assets/images/boutons/play.png" alt="Jouer le clip"></span>' +
-    '            <span class="lecteur" data-fullscreen><img src="assets/images/boutons/fullscreen.png" alt="Affichage plein écran"></span>' +
-    '        </div>'
+    '            <img class="btn_music_play" src="assets/images/boutons/play.png" alt="Jouer la musique">' +
+    '            <img class="btn_music_stop" src="assets/images/boutons/stop.png" alt="Stopper la musique">' +
+    '    </div>' +
+    '    <div>' +
+    '        <span class="info_music_currentTime">0:00</span> / <span class="info_music_duration">0:00</span>' +
+    '    </div>' +
+    '    </div>' +
+    '    <h2>Clip</h2>' +
+    '    <div>' +
+    '        <img class="btn_clip_play" src="assets/images/boutons/play.png" alt="Jouer le clip">' +
+    '        <img class="btn_clip_fullscreen" src="assets/images/boutons/fullscreen.png" alt="Affichage plein écran">' +
+    '    </div>'
 
-    body.appendChild(container);
-    positionInterlude();
     setTimeout(() => {
         document.getElementsByTagName('body')[0].className = 'interlude interludeStart'
     }, 2000)
+    body.appendChild(container);
+    positionInterlude();
 
     addEventMusicPlayer();
+    addDatasMusicPlayer();
 }
 
 function stopInterlude() {
-    console.log('Interlude - stop');
     document.querySelector('.musiques').remove();
-}
-
-let audio;
-let lecteur;
-let updateCurrentTimeInterval;
-
-function addEventMusicPlayer() {
-    document.querySelectorAll('span[data-clip-play]').forEach(
-        (elt) => {
-            elt.addEventListener('click', (event) => {
-                document.getElementsByTagName('body')[0].className = 'interlude interludeStop'
-                musicPlayerStop();
-                setTimeout(() => {
-                    stopInterlude();
-                    startMusicCinema();
-                }, 2000)
-            });
-        }
-    )
-
-    document.querySelectorAll('span[data-fullscreen]').forEach(
-        (elt) => {
-            elt.addEventListener('click', (event) => {
-                let body = document.documentElement;
-                if (document.fullscreenElement == null) {
-                    if (body.requestFullscreen) {
-                        body.requestFullscreen();
-                    } else if (body.webkitRequestFullscreen) { /* Safari */
-                        body.webkitRequestFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) { /* Safari */
-                        document.webkitExitFullscreen();
-                    }
-                }
-            });
-        }
-    )
-
-    document.querySelectorAll('div[data-musique-lecteur]').forEach(
-        (elt) => {
-            lecteur = elt;
-            let musique = elt.getAttribute('data-musique-lecteur');
-            audio = new Audio('assets/musiques/' + musique + '.mp3');
-            audio.onloadedmetadata = () => {
-                elt.querySelector('span[data-musique-duration]').innerText = floatToTime(audio.duration.toString());
-                elt.querySelector('span[data-musique-currentTime]').innerText = floatToTime(audio.currentTime.toString());
-            }
-        }
-    );
-
-    document.querySelectorAll('span[data-musique-play]').forEach(
-        (elt) => {
-            elt.addEventListener('click', (event) => {
-                if (audio.paused) {
-                    musicPlayerPlay();
-                } else {
-                    musicPlayerPause();
-                }
-            })
-        }
-    );
-
-    lecteur.querySelectorAll('span[data-musique-reload]').forEach(
-        (elt) => {
-            elt.addEventListener('click', (event) => {
-                musicPlayerStop();
-            })
-        }
-    );
-}
-
-function musicPlayerStop() {
-    musicPlayerPause();
-    audio.currentTime = 0;
-    musicPlayerUpdateCurrentTime();
-}
-
-function musicPlayerPlay() {
-    audio.play();
-    musicPlayerUpdateCurrentTime();
-    updateCurrentTimeInterval = setInterval(()=>musicPlayerUpdateCurrentTime(), 1000);
-    lecteur.querySelector('span[data-musique-play]').innerHTML =
-        '<img src="assets/images/boutons/pause.png" alt="Mettre en pause la musique">';
-}
-
-function musicPlayerPause() {
-    audio.pause();
-    clearInterval(updateCurrentTimeInterval);
-    lecteur.querySelector('span[data-musique-play]').innerHTML =
-        '<img src="assets/images/boutons/play.png" alt="Jouer la musique">';
-}
-
-function musicPlayerUpdateCurrentTime() {
-    lecteur.querySelector('span[data-musique-currentTime]').innerText = floatToTime(audio.currentTime.toString());
-}
-
-function floatToTime(float) {
-    let minutes = Math.floor(float / 60);
-    let secondes = Math.floor(float % 60);
-    let zero = secondes < 10 ? '0' : '';
-    return minutes + ':' + zero + secondes;
-}
-
-// Music
-let music;
-
-function startMusicCinema() {
-    console.log('Musique - start');
-    music = new Audio('assets/musiques/scintillant.mp3');
-    music.loop = false;
-    music.play()
-        .then()
-        .then(()=> {
-            cinema.start();
-            cinemaStopAuto = setTimeout(() => {
-                cinema.stopTransition();
-            },164000)
-        })
-        .catch(() => {
-            startInterlude();
-        });
-}
-
-function stopMusicCinema() {
-    console.log('Musique - stop');
-    music.pause();
-    music.currentTime = 0;
-}
-
-//
-let cinema;
-let cinemaStopAuto;
-let onStage = false;
-window.onload = () => {
-    cinema = new Cinema();
-    startInterlude();
 }
 
 function positionInterlude() {
@@ -686,3 +543,122 @@ addEventListener('resize', ()=>{
         positionInterlude();
     }
 });
+
+// Players
+let updateCurrentTimeInterval;
+
+function addEventMusicPlayer() {
+
+    document.querySelector('.btn_music_play')
+        .addEventListener('click', () => {
+            music.paused ? musicPlayerPlay() : musicPlayerPause();
+        });
+
+    document.querySelector('.btn_music_stop')
+        .addEventListener('click', () => {
+            musicPlayerStop();
+        });
+
+    document.querySelector('.btn_clip_play')
+        .addEventListener('click', () => {
+            document.getElementsByTagName('body')[0].className = 'interlude interludeStop'
+            musicPlayerStop();
+            setTimeout(() => {
+                stopInterlude();
+                startMusicCinema();
+            }, 2000)
+        });
+
+    document.querySelector('.btn_clip_fullscreen')
+        .addEventListener('click', () => {
+            let body = document.documentElement;
+            if (document.fullscreenElement == null) {
+                if (body.requestFullscreen) {
+                    body.requestFullscreen();
+                } else if (body.webkitRequestFullscreen) { /* Safari */
+                    body.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                }
+            }
+        });
+
+}
+
+function addDatasMusicPlayer() {
+    if (isNaN(music.duration)) {
+        music.onloadedmetadata = () => {
+            this.addDatasMusicPlayer();
+        }
+    } else {
+        document.querySelector('.info_music_currentTime').innerText = floatToTime(music.currentTime.toString());
+        document.querySelector('.info_music_duration').innerText = floatToTime(music.duration.toString());
+    }
+}
+
+function musicPlayerPlay() {
+    music.play();
+    musicPlayerUpdateCurrentTime();
+    updateCurrentTimeInterval = setInterval(()=>musicPlayerUpdateCurrentTime(), 1000);
+    document.querySelector('.btn_music_play').src = "assets/images/boutons/pause.png";
+}
+
+function musicPlayerPause() {
+    music.pause();
+    clearInterval(updateCurrentTimeInterval);
+    document.querySelector('.btn_music_play').src = "assets/images/boutons/play.png";
+}
+
+function musicPlayerStop() {
+    musicPlayerPause();
+    music.currentTime = 0;
+    musicPlayerUpdateCurrentTime();
+}
+
+function musicPlayerUpdateCurrentTime() {
+    document.querySelector('.info_music_currentTime').innerText = floatToTime(music.currentTime.toString());
+}
+
+function startMusicCinema() {
+    music.play()
+        .then()
+        .then(()=> {
+            cinema.start();
+            cinemaStopAuto = setTimeout(() => {
+                cinema.stopTransition();
+            },164000)
+        })
+        .catch(() => {
+            startInterlude();
+        });
+}
+
+function stopMusicCinema() {
+    musicPlayerStop()
+}
+
+// Utils
+function floatToTime(float) {
+    let minutes = Math.floor(float / 60);
+    let secondes = Math.floor(float % 60);
+    let zero = secondes < 10 ? '0' : '';
+    return minutes + ':' + zero + secondes;
+}
+
+//
+let music;
+let cinema;
+let cinemaStopAuto;
+let onStage = false;
+window.onload = () => {
+    // Init
+    music = new Audio('assets/musiques/scintillant.mp3');
+    music.loop = false;
+    cinema = new Cinema();
+    // Run
+    startInterlude();
+}

@@ -81,10 +81,6 @@ body.interlude .musiques h2 {
     text-align: center;
 }
 
-body.interlude .musiques .lecteur {
-    font-size: 2em;
-}
-
 @media screen and (max-width: 1000px) {
     body.interlude {
         font-size: 2em;
