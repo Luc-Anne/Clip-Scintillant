@@ -499,12 +499,12 @@ function startInterlude() {
     body.className = 'interlude';
 
     let container = document.createElement('div');
-    container.className = 'musiques';
+    container.className = 'lecteur';
     container.innerHTML =
     '    <h2>Musique</h2>' +
     '    <div>' +
     '        <div>' +
-    '            <img class="btn_music_play" src="assets/images/boutons/play.png" alt="Jouer la musique">' +
+    '            <img class="btn_music_play" src="assets/images/boutons/play.png" alt="Jouer ou arrêter la musique">' +
     '            <img class="btn_music_stop" src="assets/images/boutons/stop.png" alt="Stopper la musique">' +
     '    </div>' +
     '    <div>' +
@@ -528,11 +528,11 @@ function startInterlude() {
 }
 
 function stopInterlude() {
-    document.querySelector('.musiques').remove();
+    document.querySelector('.lecteur').remove();
 }
 
 function positionInterlude() {
-    let elem = document.querySelector('.musiques');
+    let elem = document.querySelector('.lecteur');
     elem.style.marginTop = (window.innerHeight - (elem.clientHeight)) / 2 + 'px';
 }
 

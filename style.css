@@ -64,26 +64,34 @@ body.interludeStop {
     animation-play-state: running;
 }
 
-body.interlude .musiques {
+body.interlude .lecteur {
     margin-left: auto;
     margin-right: auto;
     padding: 0;
 
-    width: 30%;
-
-    font-family: Dancing Script, serif;
+    font-family: Arial, Dancing Script, serif;
     text-align: center;
 }
 
-body.interlude .musiques h2 {
+body.interlude .lecteur h2 {
     margin: 50px 0 0 0;
     padding: 0;
     text-align: center;
 }
 
+body.interlude .lecteur img {
+    width: 38px;
+    height: 38px;
+}
+
 @media screen and (max-width: 1000px) {
     body.interlude {
         font-size: 2em;
+    }
+
+    body.interlude .lecteur img {
+        width: 76px;
+        height: 76px;
     }
 }
 
